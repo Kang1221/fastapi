@@ -88,7 +88,7 @@ pipeline {
 
                sh "docker login -u kang1221 -p dckr_pat_TUHLs6BwjLLjpc-PklZ_d4OLHOY"
 
-               sh "docker push kang1221/jenkins-app:dckr_pat_TUHLs6BwjLLjpc-PklZ_d4OLHOY"
+               sh "docker push kang1221/jenkins-app:${BUILD_NUMBER}"
 
             }
 
