@@ -17,15 +17,9 @@ pipeline {
       }
       stage("Tag and Push") {
          steps {
-            withCredentials([[$class: 'UsernamePasswordMultiBinding',
-            credentialsId: 'docker-hub', 
-            usernameVariable: 'DOCKER_USER_ID', 
-            passwordVariable: 'DOCKER_USER_PASSWORD'
-            ]]) {
-               sh "docker tag jenkins-pipeline_web:latest kang1221/jenkins-app:${BUILD_NUMBER}"
+              sh "docker tag jenkins-pipeline_web:latest kang1221/jenkins-app:${BUILD_NUMBER}"
                sh "docker login -u kang1221 -p dckr_pat_TUHLs6BwjLLjpc-PklZ_d4OLHOY"
                sh "docker push kang1221/jenkins-app:${BUILD_NUMBER}"
-            }
          }
       }
       stage("deploy") {
@@ -34,86 +28,4 @@ pipeline {
          }
       }
    }
-}
-
-         steps {
-
-            checkout scm
-
-         }
-
-      }
-
-      stage("Build") {
-
-         steps {
-
-            sh 'docker-compose build web'
-
-         }
-
-      }
-
-      stage("test") {
-
-         when {
-
-            expression {
-
-               params.executeTests
-
-            }
-
-         }
-
-         steps {
-
-            script {
-
-               gv.testApp()
-
-            }
-
-         }
-
-      }
-
-      stage("Tag and Push") {
-
-         steps {
-
-            withCredentials([[$class: 'UsernamePasswordMultiBinding',
-
-            credentialsId: 'docker-hub', 
-
-            usernameVariable: 'DOCKER_USER_ID', 
-
-            passwordVariable: 'DOCKER_USER_PASSWORD'
-
-            ]]) {
-
-               sh "docker tag jenkins-pipeline_web:latest kang1221/jenkins-app:${BUILD_NUMBER}"
-
-               sh "docker login -u kang1221 -p dckr_pat_TUHLs6BwjLLjpc-PklZ_d4OLHOY"
-
-               sh "docker push kang1221/jenkins-app:${BUILD_NUMBER}"
-
-            }
-
-         }
-
-      }
-
-      stage("deploy") {
-
-         steps {
-
-            sh "docker-compose up -d"
-
-         }
-
-      }
-
-   }
-
 }
